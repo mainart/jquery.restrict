@@ -1,5 +1,5 @@
 /*
- * jQuery Input Restriction ("restrict") Plugin 1.0.0
+ * jQuery Input Restriction ("restrict") Plugin 1.1.0
  * https://github.com/mainart/jquery.restrict
  *
  * Supported Browsers:
@@ -36,14 +36,9 @@
 (function($){
 
 	$.fn.restrict = function(restrict) {
-		$(this).each(function(i, input) {
+		$(this).filter('input[type=text], input[type=password], textarea').each(function(i, input) {
 			(function(restrict){
-				var $input = $(input), chars = '', codes = {}, data, pattern, prevent = false;
-
-				// Is it a password or text input element?
-				if (!$input.is('input[type=text]') && !$input.is('input[type=password]')) {
-					throw $(input).prop('id') + ' element is not a text/password input.'
-				}
+				var $input = $(input), chars = '', codes = {}, data, pattern, preventPressHandling = false;
 
 				if($.type(restrict) == "string") {
 					chars += restrict;
@@ -55,6 +50,7 @@
 
 				restrict = '';
 
+				// Filter duplicate chars
 				chars = (function(chars){
 					var seen = {}, out = [];
 					$.each(chars.split(""), function(i, c) {
@@ -93,7 +89,7 @@
 					.on('paste', null, pattern, paste);
 
 				function press(e) {
-					if (prevent) return !(prevent = false);
+					if (preventPressHandling) return !(preventPressHandling = false);
 					if (!(e.charCode in codes)) {
 						e.preventDefault();
 						e.stopImmediatePropagation();
@@ -102,23 +98,20 @@
 				};
 
 				function down(e) {
-					var meta = e.metaKey || e.ctrlKey;
-
-					if (meta) {
-						switch (e.keyCode) {
-							case 65: // Select all
-								prevent = true;
-								break;
-
+					if (e.metaKey) {
+						switch (e.which) {
+							case 65: // Select All
 							case 67: // Copy
-								prevent = true;
-								break;
-
 							case 86: // Paste
-								break;
-
 							case 88: // Cut
-								prevent = true;
+								preventPressHandling = true;
+								break;
+						}
+					} else {
+						switch (e.which) {
+							case 27: // ESC
+								$input.blur();
+								preventPressHandling = true;
 								break;
 						}
 					}
@@ -129,12 +122,13 @@
 	};
 
 	function paste(e) {
-		var $e = $(this), old = $e.val(), pasted, interval = setInterval(function() {
+		var $e = $(this), maxLength = $e.attr('maxlength'), old = $e.val(), pasted, interval = setInterval(function() {
 			if (old != (pasted = $e.val())) {
 				clearInterval(interval);
-				$e.val(pasted.replace(e.data.replace, ''));
+				$e.attr('maxlength', maxLength).val(pasted.replace(e.data.replace, ''));
 			}
 		},0);
+		$e.attr('maxlength', false);
 	};
 
 

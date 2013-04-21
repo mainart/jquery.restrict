@@ -49,6 +49,12 @@ Released under the [MIT license](http://www.opensource.org/licenses/mit-license.
 
 #### Changelog
 
+###### 1.1.0 - 21.04.2013
+
+* Type check is replaced with filtering
+* ESC key triggers `blur` event
+* Fixed Meta + V key combo
+
 ###### 1.0.0 - 20.04.2013
 
 * Initial release
