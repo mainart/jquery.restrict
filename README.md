@@ -1,13 +1,18 @@
 $.restrict()
 ============
 
-This jQuery plugin that allows you to restrict input of any text/password input field to specific characters.
+This jQuery plugin allows you to restrict input of any text/password input field to specific characters.
 
 ### Features
 
-* Uses direct input validation, instead of va≈lue altering
+* Uses direct input validation, instead of value altering
 * Filters pasted values
 * Supports `text` and `password` input types
+
+### Upcoming Features:
+
+* Support of character classes
+* Support of `textarea` element
 
 #### Example 1
 
@@ -31,7 +36,7 @@ In JavaScript:
 	$('input[type=text]').restrict();
 ```
 
-This example clones the funcionality of the 1<sup>st</sup> example, but here you define restriction rules directly in the `restrcit` attribute of an input field.
+This example clones the funcionality of the 1<sup>st</sup> example, but here you define restriction rules directly in the `data-restrcit` attribute of an input field.
 
 #### Notes
 
