@@ -72,8 +72,7 @@
 
 				$.extend(codes, {
 					8: true, // Backspace
-					13: true, // Enter
-					46: true // Delete
+					13: true // Enter
 				});
 
 				// Quote metachars
