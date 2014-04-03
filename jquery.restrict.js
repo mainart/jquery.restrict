@@ -90,7 +90,7 @@
 
 				function press(e) {
 					if (preventPressHandling) return !(preventPressHandling = false);
-					if (!(e.charCode in codes)) {
+					if (!(e.keyCode in codes)) {
 						e.preventDefault();
 						e.stopImmediatePropagation();
 						return false;
