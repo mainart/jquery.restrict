@@ -36,7 +36,7 @@
 (function($){
 
 	$.fn.restrict = function(restrict) {
-		$(this).filter('input[type=text], input[type=password], textarea').each(function(i, input) {
+		$(this).filter('input[type=text], input[type=number], input[type=password], textarea').each(function(i, input) {
 			(function(restrict){
 				var $input = $(input), chars = '', codes = {}, data, pattern, preventPressHandling = false;
 
